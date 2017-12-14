@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         new FetchWeatherTask().execute(location);
     }
 
+    final static String WEATHER_EXTRA = "WEATHER_EXTRA";
     /**
      * This method is overridden by our MainActivity class in order to handle RecyclerView item
      * clicks.
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        // TODO (1) Pass the weather to the DetailActivity
+        intentToStartDetailActivity.putExtra(WEATHER_EXTRA, weatherForDay);
         startActivity(intentToStartDetailActivity);
     }
 
