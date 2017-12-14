@@ -221,8 +221,22 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             return true;
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
+        if (id == R.id.action_open) {
+            openLocationMap();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openLocationMap() {
+        String addressString = "Toulouse, France";
+        Uri geoLocalisation = Uri.parse("geo:0,0?q=" + addressString);
+        Intent openLocationIntent = new Intent(Intent.ACTION_VIEW);
+        openLocationIntent.setData(geoLocalisation);
+
+        if (openLocationIntent.resolveActivity(getPackageManager())!=null) {
+            startActivity(openLocationIntent);
+        }
     }
 }
