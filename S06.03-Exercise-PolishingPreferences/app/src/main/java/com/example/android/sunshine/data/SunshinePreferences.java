@@ -16,6 +16,10 @@
 package com.example.android.sunshine.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.example.android.sunshine.R;
 
 public class SunshinePreferences {
 
@@ -87,55 +91,42 @@ public class SunshinePreferences {
      * "94043,USA" if SharedPreferences have not been implemented yet.
      */
     public static String getPreferredWeatherLocation(Context context) {
-        // TODO (1) Return the user's preferred location
-        /** This will be implemented in a future lesson **/
-        return getDefaultWeatherLocation();
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context);
+
+        int preferredLocationKeyId = R.string.pref_location_key;
+        int preferredLocationDefaultId = R.string.pref_location_default;
+
+        String preferredLocationKey = context.getString(preferredLocationDefaultId);
+        String preferredLocationDefault = context.getString(preferredLocationDefaultId);
+
+        String preferredLocation =
+                sharedPreferences.getString(preferredLocationKey, preferredLocationDefault);
+
+        return preferredLocation;
     }
 
     /**
      * Returns true if the user has selected metric temperature display.
      *
      * @param context Context used to get the SharedPreferences
-     *
      * @return true If metric display should be used
      */
     public static boolean isMetric(Context context) {
-        // TODO (2) Return true if the user's preference for units is metric, false otherwise
-        /** This will be implemented in a future lesson **/
-        return true;
-    }
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context);
 
-    /**
-     * Returns the location coordinates associated with the location.  Note that these coordinates
-     * may not be set, which results in (0,0) being returned. (conveniently, 0,0 is in the middle
-     * of the ocean off the west coast of Africa)
-     *
-     * @param context Used to get the SharedPreferences
-     * @return An array containing the two coordinate values.
-     */
-    public static double[] getLocationCoordinates(Context context) {
-        return getDefaultWeatherCoordinates();
-    }
+        int preferredUnitsKeyId = R.string.pref_units_key;
+        int preferredUnitsMetricId = R.string.pref_units_metric;
 
-    /**
-     * Returns true if the latitude and longitude values are available. The latitude and
-     * longitude will not be available until the lesson where the PlacePicker API is taught.
-     *
-     * @param context used to get the SharedPreferences
-     * @return true if lat/long are set
-     */
-    public static boolean isLocationLatLonAvailable(Context context) {
-        /** This will be implemented in a future lesson **/
-        return false;
-    }
+        String preferredUnitsKey = context.getString(preferredUnitsKeyId);
+        String preferredUnitsMetric = context.getString(preferredUnitsMetricId);
 
-    private static String getDefaultWeatherLocation() {
-        /** This will be implemented in a future lesson **/
-        return DEFAULT_WEATHER_LOCATION;
-    }
+        String preferredUnits =
+                sharedPreferences.getString(preferredUnitsKey, preferredUnitsMetric);
 
-    public static double[] getDefaultWeatherCoordinates() {
-        /** This will be implemented in a future lesson **/
-        return DEFAULT_WEATHER_COORDINATES;
+        boolean preferredUnitsIsMetric = preferredUnits.equals(preferredUnitsMetric);
+
+        return preferredUnitsIsMetric;
     }
 }
